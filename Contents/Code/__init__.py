@@ -21,6 +21,7 @@ def MainMenu():
   return oc
 
 ####################################################################################################
+@route(PLUGIN_PREFIX + '/hdvideos')
 def HDVideos(sort, title):
   oc = ObjectContainer(title2=title)
   contentUrl = CONTENT_URL % sort
@@ -42,6 +43,7 @@ def HDVideos(sort, title):
   return oc
 
 ####################################################################################################
+@route(PLUGIN_PREFIX+'/trailer')
 def CreateTrailerObject(title, summary, thumb, duration, directors, videoId, include_container=False):
   return MovieObject(
     key = Callback(CreateTrailerObject, title=title, summary=summary, thumb=thumb, duration=duration, directors=directors, videoId=videoId, include_container=True),
