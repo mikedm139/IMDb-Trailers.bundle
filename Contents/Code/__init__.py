@@ -47,7 +47,10 @@ def HDVideos(sort, title):
       thumb = video['video']['slateUrl']
     title = unescape(video['display']['text'] + ' - ' + video['video']['title'])
     duration = 1000*int(video['video']['duration']['seconds'])
-    summary = unescape(video['overview']['plot'])
+    try:summary = unescape(video['overview']['plot'])
+    except:
+      Log('Error unescaping summary for "%s"' % title)
+      summary = video['overview']['plot']
     directors = video['overview']['directors']
     genres = video['overview']['genres']
     oc.add(CreateTrailerObject(title, summary, thumb, duration, directors, genres, videoId))
