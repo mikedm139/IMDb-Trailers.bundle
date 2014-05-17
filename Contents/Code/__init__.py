@@ -53,6 +53,8 @@ def HDVideos(sort, title):
       summary = video['overview']['plot']
     directors = video['overview']['directors']
     genres = video['overview']['genres']
+    if not genres:
+      genres = []
     oc.add(CreateTrailerObject(title, summary, thumb, duration, directors, genres, videoId))
   return oc
 
