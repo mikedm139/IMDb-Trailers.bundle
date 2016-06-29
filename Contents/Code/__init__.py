@@ -6,7 +6,7 @@ TRAILERS     = "http://www.imdb.com/features/video/trailers"
 CONTENT_URL  = "http://www.imdb.com/video/trailers/data/_ajax/adapter/shoveler?list=%s&caller_name=ava_video_trailers"
 DETAILS_PAGE = "http://www.imdb.com/video/imdb/%s/html5"
 
-HEADERS = {"referer":"http://www.imdb.com/trailers"}
+HEADERS = {'Referer': 'http://www.imdb.com/trailers'}
 
 MediaObject.container = 'mp4'
 MediaObject.audio_codec = 'aac'
@@ -51,24 +51,22 @@ def HDVideos(sort, title):
     except:
       Log('Error unescaping summary for "%s"' % title)
       summary = video['overview']['plot']
-    directors = video['overview']['directors']
     genres = video['overview']['genres']
     if not genres:
       genres = []
-    oc.add(CreateTrailerObject(title, summary, thumb, duration, directors, genres, videoId))
+    oc.add(CreateTrailerObject(title, summary, thumb, duration, genres, videoId))
   return oc
 
 ####################################################################################################
-@route(PLUGIN_PREFIX+'/trailer', directors = list, duration = int, genres = list)
-def CreateTrailerObject(title, summary, thumb, duration, directors, genres, videoId, include_container=False):  
+@route(PLUGIN_PREFIX+'/trailer', duration = int, genres = list)
+def CreateTrailerObject(title, summary, thumb, duration, genres, videoId, include_container=False, **kwargs):
   trailer = MovieObject(
-    key = Callback(CreateTrailerObject, title=title, summary=summary, thumb=thumb, duration=duration, directors=directors, genres=genres, videoId=videoId, include_container=True),
+    key = Callback(CreateTrailerObject, title=title, summary=summary, thumb=thumb, duration=duration, genres=genres, videoId=videoId, include_container=True),
     rating_key = DETAILS_PAGE % videoId,
     title = title,
     summary = summary,
     thumb = thumb,
     duration = duration,
-    directors = directors,
     genres = genres,
     items = [
       MediaObject(
